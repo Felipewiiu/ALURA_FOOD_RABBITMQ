@@ -32,7 +32,7 @@ public class PedidoAmqpConfiguration {
         return QueueBuilder.nonDurable("pagamentos.detalhes-pedidos").build();
     }
 
-    //cria a exchange
+    // constroi a exenchange
     @Bean
     public FanoutExchange fanoutExchange(){
         return ExchangeBuilder
