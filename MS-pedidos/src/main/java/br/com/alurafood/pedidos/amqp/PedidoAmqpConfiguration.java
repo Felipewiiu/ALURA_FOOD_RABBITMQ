@@ -1,8 +1,6 @@
-package br.com.alurafood.pagamentos.amqp;
+package br.com.alurafood.pedidos.amqp;
 
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.QueueBuilder;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -13,20 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class PagamentoAmqpConfiguration {
+public class PedidoAmqpConfiguration {
 
-
-    @Bean
-    public RabbitAdmin criaRabbitAdmin(ConnectionFactory connectionFactory) {
-        return new RabbitAdmin(connectionFactory);
-    }
-
-    @Bean // essa classe serve para inicializar o rabbitAdmin
-    public ApplicationListener<ApplicationReadyEvent> inicializaAdmin(RabbitAdmin rabbitAdmin) {
-        return  event -> rabbitAdmin.initialize();
-    }
-
-    //mudar o conversor padrão
     @Bean
     public Jackson2JsonMessageConverter mensagemConverter() {
         return new Jackson2JsonMessageConverter();
@@ -41,9 +27,33 @@ public class PagamentoAmqpConfiguration {
         return rabbitTemplate;
     }
 
-    //Aqui eu crio uma exchange
     @Bean
-    public FanoutExchange fanoutExchange() {
-        return new FanoutExchange("pagamentos.ex");
+    public Queue filaDetalhesPedidos(){
+        return QueueBuilder.nonDurable("pagamentos.detalhes-pedidos").build();
     }
+
+    //cria a exchange
+    @Bean
+    public FanoutExchange fanoutExchange(){
+        return ExchangeBuilder
+                .fanoutExchange("pagamentos.ex").build();
+    }
+
+    //Liga a exchange
+    @Bean
+    public Binding bindingPagamentoPedido(FanoutExchange fanoutExchange){
+        return BindingBuilder.bind(filaDetalhesPedidos())
+                .to(fanoutExchange);
+    }
+
+    @Bean
+    public RabbitAdmin criaRabbitAdmin(ConnectionFactory conn) {
+        return new RabbitAdmin(conn);
+    }
+
+    @Bean
+    public ApplicationListener<ApplicationReadyEvent> inicializaAdmin(RabbitAdmin rabbitAdmin) {
+        return event -> rabbitAdmin.initialize();
+    }
+
 }
