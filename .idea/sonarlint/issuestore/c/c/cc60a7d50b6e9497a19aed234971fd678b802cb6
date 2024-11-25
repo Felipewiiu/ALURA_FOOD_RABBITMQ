@@ -1,0 +1,11 @@
+
+~
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞJ$437a8cb5-af7c-45d8-bf92-cb5ace250271
+~
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞJ$8765124d-ea3b-4790-91f7-c155735eb521
+o
+java:S6204!"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8ˆÍØÏ¯2
+z
+java:S18541"9Remove this useless assignment to local variable "salvo".(´›¹—ùÿÿÿÿJ$5c384c36-dae5-4026-be30-2b9c6f23843d
+k
+java:S14811"*Remove this unused "salvo" local variable.(´›¹—ùÿÿÿÿJ$01d32cba-b33c-483f-afc2-c1a9196f5262
