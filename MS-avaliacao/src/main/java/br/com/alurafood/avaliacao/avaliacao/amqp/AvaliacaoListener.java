@@ -13,7 +13,7 @@ public class AvaliacaoListener {
         System.out.println(pagamento.getId());
         System.out.println(pagamento.getNumero());
 
-        if(pagamento.getNumero().equals("0000")){
+        if(pagamento.getNumero().equals("00001")){
             throw new RuntimeException("não consegui processar o pagamento");
         }
 
